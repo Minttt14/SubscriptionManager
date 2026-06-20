@@ -12,7 +12,7 @@
 ## 使用方法
 ### 一、 帳號存取流程：登入與註冊
 #### 1. 註冊新帳號
-首次使用者，請在登入畫面點擊「沒有帳號？立即註冊」建立個人帳號：
+首次使用者，請在登入畫面點擊「沒有帳號？立即註冊」建立個人帳號
 
 <img width="400" height="300" alt="螢幕擷取畫面 2026-06-20 163323" src="https://github.com/user-attachments/assets/0d66091c-5bc3-4280-a082-a2daf643ef21" />
 <br>
@@ -35,7 +35,7 @@
 - 身分驗證： 驗證帳號密碼，通過後儲存「登入狀態」
 - 錯誤處理： 若輸入錯誤，系統會自動清除密碼欄位並要求重新輸入
 
-<img width="300" height="200" alt="螢幕擷取畫面 2026-06-20 164323" src="https://github.com/user-attachments/assets/17272052-7f82-4187-93a8-969862ac2375" />
+<img width="400" height="250" alt="螢幕擷取畫面 2026-06-20 164323" src="https://github.com/user-attachments/assets/17272052-7f82-4187-93a8-969862ac2375" />
 
 <br>
 
@@ -66,5 +66,37 @@
 <img width="300" height="180" alt="螢幕擷取畫面 2026-06-20 183503" src="https://github.com/user-attachments/assets/7b063d09-5e2d-408a-91f6-aae2b7d7756b" />
 <img width="300" height="180" alt="螢幕擷取畫面 2026-06-20 183550" src="https://github.com/user-attachments/assets/7c74fc1e-4bec-4c33-bec8-da183151edbe" />
 
+#### 2. 編輯與刪除
+點選項目後進行修改或刪除
+- 刪除機制：採用「軟刪除」邏輯，資料庫仍保留記錄，以利未來資料修復
 
+<img width="400" height="250" alt="螢幕擷取畫面 2026-06-20 183920" src="https://github.com/user-attachments/assets/39246053-328a-41e4-b2da-2e48e9c1d0ad" />
+
+#### 3. 排序與搜尋功能
+點選表格最上方的「名稱」、「金額」、「週期」等標題即可對該項目由大到小或由小到大排序。在最上方的格子中輸入要搜尋的項目並按下搜尋，系統會自動過濾出符合項，最下方也會顯示目前項數
+
+<img width="400" height="370" alt="image" src="https://github.com/user-attachments/assets/e5203cd5-a7c2-4290-ade8-b6e5a0f5a808" />
+
+### 五、 月曆與歷史紀錄
+#### 1. 月曆
+月曆藍色底代表「提醒日」，紅色底代表「實際扣款日」，藍框代表「今天日期」，點選日期可展開當日明細，也可以查看其他月份的紀錄
+
+<img width="400" height="170" alt="螢幕擷取畫面 2026-06-20 185330" src="https://github.com/user-attachments/assets/152ea090-e354-4b8a-a4cc-e7e2de34a8aa" />
+
+#### 2. 歷史扣款紀錄
+系統會自動比對已扣款過的日期後寫入，並會根據使用者目前是否還有訂閱顯示不同狀態「續訂中」或「已退訂」，點選表格標題可進行排序
+
+<img width="400" height="170" alt="螢幕擷取畫面 2026-06-20 185412" src="https://github.com/user-attachments/assets/5e761458-5561-48a5-9880-7ef23709604f" />
+
+### 六、 財務分析
+- 支出趨勢： 比對本月與上月支出差異
+- 訂閱項目總數統計： 顯示月/季/年繳的分佈
+- 圓餅圖： 根據訂閱支出計算百分比，在右側以條列式呈現項目名稱、價錢與比例
+
+<img width="400" height="330" alt="螢幕擷取畫面 2026-06-20 193849" src="https://github.com/user-attachments/assets/ca571d5d-0608-4e5d-82f7-fa19979fdd85" />
+
+### 七、 登出
+點選左下角登出鍵會跳出「確定要登出嗎?」提示詞，選擇「是」會返回登入頁面
+
+<img width="400" height="250" alt="螢幕擷取畫面 2026-06-20 203215" src="https://github.com/user-attachments/assets/de44d4c1-8d03-4e88-a1a6-3cb2c9d870c0" />
 
