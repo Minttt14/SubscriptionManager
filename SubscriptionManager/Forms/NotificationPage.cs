@@ -12,83 +12,75 @@ using SubscriptionManager.Models;
 
 namespace SubscriptionManager.Forms
 {
-    /// <summary>
-    /// 頁面：即將扣款通知
-    /// 呈現未來 7 天內所有訂閱的下次扣款日，依天數排序，
-    /// 以紅/橙/綠卡片呈現（仿截圖三風格）
-    /// </summary>
     public class NotificationPage : UserControl
     {
-        private Label           lblTitle;
-        private Label           lblSubtitle;
+        private Label lblTitle;
+        private Label lblSubtitle;
         private FlowLayoutPanel pnlCards;
-        private Panel           pnlEmpty;
+        private Panel pnlEmpty;
 
         public NotificationPage() { InitializeComponent(); }
 
         private void InitializeComponent()
         {
-            this.Size      = new Size(800, 600);
+            this.Size = new Size(800, 600);
             this.BackColor = Color.FromArgb(245, 245, 247);
-            this.Padding   = new Padding(24);
 
             lblTitle = new Label
             {
-                Text      = "即將扣款通知",
-                Location  = new Point(24, 20),
-                AutoSize  = true,
-                Font      = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold),
+                Text = "近期扣款提醒",
+                Location = new Point(24, 24),
+                AutoSize = true,
+                Font = new Font("Microsoft JhengHei UI", 14F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(35, 35, 35)
             };
             lblSubtitle = new Label
             {
-                Text      = "未來 7 天內的扣款提醒",
-                Location  = new Point(26, 52),
-                AutoSize  = true,
-                Font      = new Font("Microsoft JhengHei UI", 9.5F),
-                ForeColor = Color.FromArgb(150, 150, 150)
+                Text = "未來 7 天",
+                Location = new Point(148, 31),
+                AutoSize = true,
+                Font = new Font("Microsoft JhengHei UI", 10F),
+                ForeColor = Color.FromArgb(170, 170, 170)
             };
 
-            // 卡片滾動容器
             pnlCards = new FlowLayoutPanel
             {
-                Location      = new Point(24, 80),
-                Size          = new Size(740, 480),
-                Anchor        = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-                AutoScroll    = true,
+                Location = new Point(24, 68),
+                Size = new Size(740, 500),
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                AutoScroll = true,
                 FlowDirection = FlowDirection.TopDown,
-                WrapContents  = false,
-                BackColor     = Color.Transparent,
-                Padding       = new Padding(0, 4, 0, 0)
+                WrapContents = false,
+                BackColor = Color.Transparent,
+                Padding = new Padding(0, 4, 0, 4)
             };
 
-            // 空狀態
             pnlEmpty = new Panel
             {
-                Location  = new Point(24, 80),
-                Size      = new Size(740, 200),
+                Location = new Point(24, 68),
+                Size = new Size(720, 120),
                 BackColor = Color.White,
-                Visible   = false
+                Visible = false
             };
             pnlEmpty.Paint += (s, e) =>
             {
-                using (var pen = new Pen(Color.FromArgb(220, 220, 220)))
-                    e.Graphics.DrawRectangle(pen, 0, 0, pnlEmpty.Width - 1, pnlEmpty.Height - 1);
+                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
+                using (var path = RR(pnlEmpty.ClientRectangle, 12))
+                using (var pen = new Pen(Color.FromArgb(220, 220, 220), 1))
+                    e.Graphics.DrawPath(pen, path);
             };
             pnlEmpty.Controls.Add(new Label
             {
-                Text      = "✓  未來 7 天內沒有即將到期的扣款",
-                Location  = new Point(0, 80),
-                Size      = new Size(740, 40),
+                Text = "✓  未來 7 天內沒有即將到期的扣款",
+                Dock = DockStyle.Fill,
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font      = new Font("Microsoft JhengHei UI", 11F),
+                Font = new Font("Microsoft JhengHei UI", 11F),
                 ForeColor = Color.FromArgb(100, 160, 80)
             });
 
             this.Controls.AddRange(new Control[] { lblTitle, lblSubtitle, pnlCards, pnlEmpty });
         }
 
-        // ── 公開：載入 ────────────────────────────────────────────────────────
         public void LoadData()
         {
             int userId = Session.CurrentUser.UserID;
@@ -120,7 +112,6 @@ namespace SubscriptionManager.Forms
 
             pnlCards.Controls.Clear();
 
-            // 如果沒有資料，顯示清空的面板
             if (list.Count == 0)
             {
                 pnlEmpty.Visible = true;
@@ -131,131 +122,123 @@ namespace SubscriptionManager.Forms
             pnlEmpty.Visible = false;
             pnlCards.Visible = true;
 
-            // 依天數由近到遠排序
             foreach (var item in list.OrderBy(x => x.DaysLeft))
                 pnlCards.Controls.Add(CreateCard(item.Name, item.Cost, item.NextDue, item.DaysLeft, item.ReminderDays));
         }
 
-        // ── 通知卡片（對應截圖三風格）───────────────────────────────────────
+        // ── 卡片：完全用 Paint 事件自繪，避免子控制項背景蓋掉圓角 ──────────
         private Panel CreateCard(string name, decimal cost, DateTime dueDate, int daysLeft, int reminderDays)
         {
-            // ── 色彩分級 ────────────────────────────────────────────────
+            // ── 色彩分級 ─────────────────────────────────────────────────
             Color bgColor, nameColor, subColor, badgeBg, badgeFg;
             string iconText;
 
             if (daysLeft <= 3)
             {
-                bgColor  = Color.FromArgb(255, 242, 242);
-                nameColor = Color.FromArgb(160, 40, 40);
-                subColor  = Color.FromArgb(190, 80, 80);
-                badgeBg   = Color.FromArgb(245, 180, 180);
-                badgeFg   = Color.FromArgb(120, 20, 20);
-                iconText  = "!";
+                bgColor = Color.FromArgb(255, 242, 242);
+                nameColor = Color.FromArgb(155, 40, 40);
+                subColor = Color.FromArgb(185, 85, 85);
+                badgeBg = Color.FromArgb(243, 178, 178);
+                badgeFg = Color.FromArgb(115, 18, 18);
+                iconText = "!";
             }
-            else if (daysLeft <= 7)
+            else if (daysLeft > 3 && daysLeft <= 5)
             {
-                bgColor   = Color.FromArgb(255, 251, 230);
-                nameColor = Color.FromArgb(140, 100, 20);
-                subColor  = Color.FromArgb(170, 130, 40);
-                badgeBg   = Color.FromArgb(250, 215, 120);
-                badgeFg   = Color.FromArgb(110, 75, 10);
-                iconText  = "○";
+                bgColor = Color.FromArgb(255, 251, 230);
+                nameColor = Color.FromArgb(135, 98, 18);
+                subColor = Color.FromArgb(165, 128, 38);
+                badgeBg = Color.FromArgb(248, 213, 116);
+                badgeFg = Color.FromArgb(108, 72, 8);
+                iconText = "○";
             }
             else
             {
-                bgColor   = Color.FromArgb(242, 250, 238);
-                nameColor = Color.FromArgb(50, 120, 40);
-                subColor  = Color.FromArgb(80, 150, 60);
-                badgeBg   = Color.FromArgb(185, 228, 158);
-                badgeFg   = Color.FromArgb(30, 90, 20);
-                iconText  = "✓";
+                bgColor = Color.FromArgb(242, 250, 238);
+                nameColor = Color.FromArgb(48, 118, 38);
+                subColor = Color.FromArgb(78, 148, 58);
+                badgeBg = Color.FromArgb(183, 226, 155);
+                badgeFg = Color.FromArgb(28, 88, 18);
+                iconText = "✓";
             }
 
-            // ── 外層卡片 Panel ──────────────────────────────────────────
-            var card = new Panel
-            {
-                Size      = new Size(700, 76),
-                BackColor = bgColor,
-                Margin    = new Padding(0, 0, 0, 10)
-            };
-
-            // 圓角繪製
-            card.Paint += (s, e) =>
-            {
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using (var path = RoundedRect(card.ClientRectangle, 12))
-                using (var brush = new SolidBrush(bgColor))
-                    e.Graphics.FillPath(brush, path);
-            };
-
-            // 左側圖示
+            // ── 組裝子控制項（背景設成 Transparent）─────────────────────
             var lblIcon = new Label
             {
-                Text      = iconText,
-                Location  = new Point(18, 24),
-                Size      = new Size(26, 26),
+                Text = iconText,
+                Size = new Size(28, 28),
+                Location = new Point(18, 24),
                 TextAlign = ContentAlignment.MiddleCenter,
-                Font      = new Font("Arial", 11F, FontStyle.Bold),
+                Font = new Font("Arial", 12F, FontStyle.Bold),
                 ForeColor = nameColor,
                 BackColor = Color.Transparent
             };
 
-            // 訂閱名稱
             var lblName = new Label
             {
-                Text      = name,
-                Location  = new Point(54, 14),
-                AutoSize  = true,
-                Font      = new Font("Microsoft JhengHei UI", 11F, FontStyle.Bold),
+                Text = name,
+                Location = new Point(56, 13),
+                AutoSize = true,
+                Font = new Font("Microsoft JhengHei UI", 11F, FontStyle.Bold),
                 ForeColor = nameColor,
                 BackColor = Color.Transparent
             };
 
-            // 扣款日 + 金額
-            string reminderNote = reminderDays > 0 ? $"  （提醒日 {dueDate.AddDays(-reminderDays):MM/dd}）" : "";
+            string reminderNote = reminderDays > 0
+                ? $"  （提醒日 {dueDate.AddDays(-reminderDays):MM/dd}）" : "";
             var lblSub = new Label
             {
-                Text      = $"{dueDate:MM/dd} 扣款 · NT$ {cost:N0}{reminderNote}",
-                Location  = new Point(54, 44),
-                AutoSize  = true,
-                Font      = new Font("Microsoft JhengHei UI", 9F),
+                Text = $"{dueDate:MM/dd} 扣款 · NT$ {cost:N0}{reminderNote}",
+                Location = new Point(56, 43),
+                AutoSize = true,
+                Font = new Font("Microsoft JhengHei UI", 9F),
                 ForeColor = subColor,
                 BackColor = Color.Transparent
             };
 
-            // 右側 Badge「剩 N 天」
-            var lblBadge = new Label
+            // Badge 尺寸與位置
+            const int badgeW = 80, badgeH = 30, badgeR = 15;
+            string badgeText = $"剩 {daysLeft} 天";
+
+            // ── 外層卡片：完整 Paint 自繪（圓角背景 + Badge）────────────
+            var card = new Panel
             {
-                Text      = $"剩 {daysLeft} 天",
-                Location  = new Point(590, 24),
-                Size      = new Size(80, 30),
-                TextAlign = ContentAlignment.MiddleCenter,
-                Font      = new Font("Microsoft JhengHei UI", 9.5F, FontStyle.Bold),
-                ForeColor = badgeFg,
-                BackColor = Color.Transparent
+                Size = new Size(720, 76),
+                BackColor = Color.Transparent,   // 讓父容器背景透出
+                Margin = new Padding(0, 0, 0, 10)
             };
 
-            // Badge 圓角背景
-            lblBadge.Paint += (s, e) =>
+            card.Paint += (s, e) =>
             {
-                e.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                using (var path = RoundedRect(lblBadge.ClientRectangle, 14))
+                var g = e.Graphics;
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+
+                // 1. 畫圓角卡片背景
+                var cardRect = new Rectangle(0, 0, card.Width, card.Height);
+                using (var path = RR(cardRect, 12))
+                using (var brush = new SolidBrush(bgColor))
+                    g.FillPath(brush, path);
+
+                // 2. 畫 Badge 圓角背景
+                int badgeX = card.Width - badgeW - 20;
+                int badgeY = (card.Height - badgeH) / 2;
+                var badgeRect = new Rectangle(badgeX, badgeY, badgeW, badgeH);
+                using (var path = RR(badgeRect, badgeR))
                 using (var brush = new SolidBrush(badgeBg))
-                {
-                    e.Graphics.Clear(bgColor);
-                    e.Graphics.FillPath(brush, path);
-                }
-                TextRenderer.DrawText(e.Graphics, lblBadge.Text, lblBadge.Font,
-                    lblBadge.ClientRectangle, badgeFg,
+                    g.FillPath(brush, path);
+
+                // 3. 畫 Badge 文字
+                TextRenderer.DrawText(g, badgeText,
+                    new Font("Microsoft JhengHei UI", 9.5F, FontStyle.Bold),
+                    badgeRect, badgeFg,
                     TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
             };
 
-            card.Controls.AddRange(new Control[] { lblIcon, lblName, lblSub, lblBadge });
+            card.Controls.AddRange(new Control[] { lblIcon, lblName, lblSub });
             return card;
         }
 
-        // ── 圓角 Path ─────────────────────────────────────────────────────────
-        private GraphicsPath RoundedRect(Rectangle b, int r)
+        // ── 圓角 Path 輔助 ────────────────────────────────────────────────────
+        private GraphicsPath RR(Rectangle b, int r)
         {
             var p = new GraphicsPath();
             int d = r * 2;

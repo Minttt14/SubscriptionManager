@@ -211,11 +211,12 @@ namespace SubscriptionManager.Forms
                 new[] { new SqlParameter("@uid", userId), new SqlParameter("@yr", _viewMonth.Year), new SqlParameter("@mo", _viewMonth.Month) });
 
             Color[] pieColors = {
-                Color.FromArgb(24,  95, 165),
-                Color.FromArgb(93, 202, 165),
-                Color.FromArgb(250,199, 117),
-                Color.FromArgb(212, 83, 126),
-                Color.FromArgb(163, 45,  45)
+                ColorTranslator.FromHtml("#E3ECF3"), 
+                ColorTranslator.FromHtml("#E9EDC9"), 
+                ColorTranslator.FromHtml("#A7C2E0"), 
+                ColorTranslator.FromHtml("#FAE1DD"), 
+                ColorTranslator.FromHtml("#DCD7ED"),
+                ColorTranslator.FromHtml("#FFF8E7")
             };
             int ci = 0;
             foreach (DataRow row in dtPie.Rows)

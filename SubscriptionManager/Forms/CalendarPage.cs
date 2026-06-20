@@ -57,14 +57,14 @@ namespace SubscriptionManager.Forms
 
             lblMonthYear = new Label
             {
-                Location  = new Point(60, 18),
+                Location  = new Point(75, 18),
                 Size      = new Size(180, 28),
                 TextAlign = ContentAlignment.MiddleCenter,
                 Font      = new Font("Microsoft JhengHei UI", 12F, FontStyle.Bold),
                 ForeColor = Color.FromArgb(40, 40, 40)
             };
 
-            btnNextMonth = MakeNavBtn("›", new Point(248, 16));
+            btnNextMonth = MakeNavBtn("›", new Point(280, 16));
             btnNextMonth.Click += (s, e) => { _displayMonth = _displayMonth.AddMonths(1); LoadData(); };
 
             // ── 月曆 ────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ namespace SubscriptionManager.Forms
             pnlDetailOuter = new Panel
             {
                 Location    = new Point(330, 16),
-                Size        = new Size(500, 300),
+                Size        = new Size(482, 300),
                 BackColor   = Color.White,
                 BorderStyle = BorderStyle.None,
                 AutoScroll  = false   // 外層不捲，由內層 Panel 控制

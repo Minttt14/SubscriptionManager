@@ -44,7 +44,7 @@ namespace SubscriptionManager.Forms
             pnlCard = new Panel
             {
                 Size      = new Size(340, 250),
-                Location  = new Point(32, 30),
+                Location  = new Point(32, 26),
                 BackColor = Color.White,
                 Padding   = new Padding(20)
             };
@@ -124,7 +124,7 @@ namespace SubscriptionManager.Forms
             {
                 Name      = "lnkRegister",
                 Text      = "沒有帳號？立即註冊",
-                Location  = new Point(95, 202),
+                Location  = new Point(122, 202),
                 AutoSize  = true,
                 LinkColor = Color.FromArgb(24, 95, 165)
             };
