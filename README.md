@@ -22,9 +22,9 @@
 - 帳號查重： 系統會自動查詢資料庫，確保該帳號未被註冊過
 - 輸入密碼一致性： 兩次輸入的密碼要相同
 
-<img width="300" height="200" alt="螢幕擷取畫面 2026-06-20 163537" src="https://github.com/user-attachments/assets/fdc52246-4e61-40a0-9628-033c8231ad31" />
-<img width="300" height="200" alt="螢幕擷取畫面 2026-06-20 163746" src="https://github.com/user-attachments/assets/d31dda7d-df6b-4e27-a2d4-597a12316c30" />
-<img width="300" height="200" alt="螢幕擷取畫面 2026-06-20 163833" src="https://github.com/user-attachments/assets/e275a38a-0f5b-4a6b-9d57-023805a310be" />
+<img width="250" height="160" alt="螢幕擷取畫面 2026-06-20 163537" src="https://github.com/user-attachments/assets/fdc52246-4e61-40a0-9628-033c8231ad31" />
+<img width="250" height="160" alt="螢幕擷取畫面 2026-06-20 163746" src="https://github.com/user-attachments/assets/d31dda7d-df6b-4e27-a2d4-597a12316c30" />
+<img width="250" height="160" alt="螢幕擷取畫面 2026-06-20 163833" src="https://github.com/user-attachments/assets/e275a38a-0f5b-4a6b-9d57-023805a310be" />
 
 #### 2. 系統登入
 輸入正確的帳號與密碼，點擊「登入」
