@@ -13,7 +13,6 @@ namespace SubscriptionManager.Forms
     /// </summary>
     public class LoginForm : Form
     {
-        // ── 控制項宣告（對應設計稿命名）────────────────────────────────────
         private Label      lblTitle;
         private Label      lblUsername;
         private Label      lblPassword;
