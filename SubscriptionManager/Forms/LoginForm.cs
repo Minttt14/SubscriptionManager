@@ -10,12 +10,6 @@ namespace SubscriptionManager.Forms
 {
     /// <summary>
     /// 頁面 1：登入與註冊
-    /// ┌─────────────────────────────┐
-    /// │  帳號: [txtUsername        ]│
-    /// │  密碼: [txtPassword  ******]│
-    /// │       [  登入  ] [  取消  ]│
-    /// │       沒有帳號？[立即註冊]  │
-    /// └─────────────────────────────┘
     /// </summary>
     public class LoginForm : Form
     {
@@ -35,8 +29,6 @@ namespace SubscriptionManager.Forms
             InitializeComponent();
         }
 
-        // ── 手動 InitializeComponent（不依賴 Designer.cs）──────────────────
-        // 如果用 Visual Studio 設計工具，把這段刪掉，改由 Designer.cs 產生
         private void InitializeComponent()
         {
             // Form 本體
@@ -52,7 +44,7 @@ namespace SubscriptionManager.Forms
             pnlCard = new Panel
             {
                 Size      = new Size(340, 250),
-                Location  = new Point(40, 30),
+                Location  = new Point(32, 30),
                 BackColor = Color.White,
                 Padding   = new Padding(20)
             };
