@@ -14,9 +14,14 @@ namespace SubscriptionManager
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // 直接呼叫建表邏輯，因為檔案我們已經在 VS 裡建好了
-            DatabaseHelper.InitializeDatabase();
+            // 設定資料庫路徑
+            string dbPath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "SubscriptionManager");
+            Directory.CreateDirectory(dbPath);
+            AppDomain.CurrentDomain.SetData("DataDirectory", dbPath);
 
+            DatabaseHelper.InitializeDatabase();
             Application.Run(new LoginForm());
         }
     }
